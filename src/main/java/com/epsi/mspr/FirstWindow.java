@@ -50,7 +50,10 @@ public class FirstWindow {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel contentPane = (JPanel)frame.getContentPane();
 		contentPane.setLayout(new FlowLayout());
-		contentPane.add(new JButton("Push me"));
+		JButton btn = new JButton("Push me");
+
+		// contentPane.add(new JButton("Push me"));
+		contentPane.add(btn);
 		contentPane.add(new JCheckBox("Check me"));
 		contentPane.add(new JTextField("Edit me"));
 		
