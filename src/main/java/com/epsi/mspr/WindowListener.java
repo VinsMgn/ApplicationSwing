@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.plaf.nimbus.*;
 
-public class FirstWindow implements ActionListener {
+public class WindowListener {
 
 	private JFrame frame;
 	private JButton btnPush = new JButton("Push me");
@@ -26,7 +26,7 @@ public class FirstWindow implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FirstWindow window = new FirstWindow();
+					WindowListener window = new WindowListener();
 					UIManager.setLookAndFeel(new NimbusLookAndFeel());
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -35,21 +35,13 @@ public class FirstWindow implements ActionListener {
 		});
 	}
 	
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		if(e.getSource() == btnClick) {
-			System.out.println("Button clicked");
-		} else {
-			System.out.println("Other button clicked");
-		}
-	}
-	
 	/**
 	 * Create the application.
 	 */
-	public FirstWindow() {
+	public WindowListener() {
 		initialize();
 	}
+	
 
 	/**
 	 * Initialize the contents of the frame.
@@ -65,16 +57,30 @@ public class FirstWindow implements ActionListener {
 		
 		JPanel contentPane = (JPanel)frame.getContentPane();
 		contentPane.setLayout(new FlowLayout());
-		
-		this.btnPush.addActionListener(this);
+		btnPush.addActionListener( new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				btnPushListener(e);
+			}
+		});
 		contentPane.add(btnPush);
 
-		this.btnClick.addActionListener(this);
+		btnClick.addActionListener( new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Click me");
+			}
+		});
 		contentPane.add(btnClick);
 
 		contentPane.add(new JCheckBox("Check me"));
 		contentPane.add(new JTextField("Edit me"));
-		
+	}
+	
+	private void btnPushListener(ActionEvent e) {
+		btnClick.setText("toto");
+		System.out.println("Push me");
 	}
 
 }

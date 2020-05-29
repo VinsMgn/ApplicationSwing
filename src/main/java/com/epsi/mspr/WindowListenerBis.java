@@ -3,16 +3,18 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.plaf.nimbus.*;
 
-public class FirstWindow implements ActionListener {
+public class WindowListenerBis {
 
 	private JFrame frame;
 	private JButton btnPush = new JButton("Push me");
@@ -26,7 +28,8 @@ public class FirstWindow implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FirstWindow window = new FirstWindow();
+					WindowListenerBis window = new WindowListenerBis();
+					window.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 					UIManager.setLookAndFeel(new NimbusLookAndFeel());
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -35,21 +38,13 @@ public class FirstWindow implements ActionListener {
 		});
 	}
 	
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		if(e.getSource() == btnClick) {
-			System.out.println("Button clicked");
-		} else {
-			System.out.println("Other button clicked");
-		}
-	}
-	
 	/**
 	 * Create the application.
 	 */
-	public FirstWindow() {
+	public WindowListenerBis() {
 		initialize();
 	}
+	
 
 	/**
 	 * Initialize the contents of the frame.
@@ -65,16 +60,36 @@ public class FirstWindow implements ActionListener {
 		
 		JPanel contentPane = (JPanel)frame.getContentPane();
 		contentPane.setLayout(new FlowLayout());
+		/*
+		 * btnPush.addActionListener( new ActionListener() {
+		 * 
+		 * public void actionPerformed(ActionEvent e) { btnPushListener(e); } });
+		 */
 		
-		this.btnPush.addActionListener(this);
+		btnPush.addActionListener((e) -> btnPushListener(e));
 		contentPane.add(btnPush);
 
-		this.btnClick.addActionListener(this);
+		btnClick.addActionListener((e) -> System.out.println("BtnClick") );
 		contentPane.add(btnClick);
 
 		contentPane.add(new JCheckBox("Check me"));
 		contentPane.add(new JTextField("Edit me"));
 		
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent e) {
+				int clickedButton = JOptionPane.showConfirmDialog(contentPane, WindowListenerBis.this, "Etes vous sur de vouloir quitter ?", 0, 0);
+				if (clickedButton == JOptionPane.YES_OPTION) {
+					WindowListenerBis.this.frame.dispose();
+				}
+			
+			}
+		});
+	}
+	
+	private void btnPushListener(ActionEvent e) {
+		// btnClick.setText("toto");
+		System.out.println("Push me");
 	}
 
 }
