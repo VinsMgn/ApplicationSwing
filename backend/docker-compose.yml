@@ -12,34 +12,17 @@ services:
       - ./api:/home/node/app
     environment:
       ENV: dev
-      DB_HOST: db
-      DB_NAME: mspr_iot
-      DB_USER: root
-      DB_PASSWORD: root
+      DB_HOST: ec2-54-217-204-34.eu-west-1.compute.amazonaws.com
+      DB_NAME: dcr0iulgfev7hi
+      DB_PORT: 5432
+      DB_USER: jtwljcpydveclf
+      DB_PASSWORD: 12ddb0820d81f0dc27c85981dba6395b4481f74dc74298a7d25a865e2878a2f1
       API_PORT: ${API_PORT}
       API_HOST: localhost
       SECRETJWT: secret
     restart: unless-stopped
     expose:
       - ${API_PORT}
-    networks:
-      - backend
-    depends_on:
-      - db
-
-  db:
-    image: mariadb:10.3
-    container_name: mspr_iot_database
-    volumes:
-      - ${PWD}/database:/var/lib/mysql
-    command: --max_allowed_packet=32505856
-    expose:
-      - ${DB_PORT}
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: mspr_iot
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
     networks:
       - backend
 
@@ -55,7 +38,6 @@ services:
       - 8081:${API_PORT}
     depends_on:
       - api
-      - db
     networks:
       - backend
 

@@ -1,0 +1,22 @@
+{
+  "dbOptions": {
+    "database": "dcr0iulgfev7hi",
+    "username": "jtwljcpydveclf",
+    "password": "12ddb0820d81f0dc27c85981dba6395b4481f74dc74298a7d25a865e2878a2f1",
+    "host": "ec2-54-217-204-34.eu-west-1.compute.amazonaws.com",
+    "port": 5432,
+    "logging": false,
+    "dialect": "postgres",
+    "protocol": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  },
+  "options": {
+    "type": "ts",
+    "dir": "./api/src/services/Models"
+  }
+}

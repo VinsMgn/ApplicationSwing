@@ -21,7 +21,7 @@ interface Models {
  * @property {Models} models
  */
 export class DataBase extends BaseService {
-  client: Sequelize | undefined;
+  client!: Sequelize;
   models!: Models;
 
   constructor(app: ServiceContainer) {
@@ -41,14 +41,18 @@ export class DataBase extends BaseService {
 
   init() {
     const options: Options = {
-      dialect: "mysql",
-      host: this.config.db.host,
+      dialect: "postgres",
+      protocol: "postgres",
+      dialectOptions: {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
+        },
+      },
     };
 
     this.client = new Sequelize(
-      this.config.db.name,
-      this.config.db.user,
-      this.config.db.password,
+      `postgres://${this.config.db.user}:${this.config.db.password}@${this.config.db.host}:${this.config.db.port}/${this.config.db.name}`,
       options
     );
 
@@ -72,9 +76,19 @@ export class DataBase extends BaseService {
   }
 
   async asyncInit() {
+    // await this.client?.query(
+    //   fs.readFileSync(path.join(__dirname, "..", "scripts", "script_sql.sql"), {
+    //     encoding: "UTF-8",
+    //   })
+    // );
+
     // await this.client.drop();
     for (const model of Object.keys(this.models)) {
-      await this.models[model as keyof Models].sync({ force: true });
+      try {
+        await this.models[model as keyof Models].sync({ force: true });
+      } catch (error) {
+        console.log(error);
+      }
     }
     for (const [, model] of Object.entries(this.models)) {
       if (model.associate) {

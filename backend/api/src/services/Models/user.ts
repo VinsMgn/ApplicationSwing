@@ -1,24 +1,49 @@
-import { Model, DataTypes, Sequelize } from "sequelize";
-import { Models } from "./index";
+import { Sequelize, DataTypes, Model } from "sequelize";
+import { Models } from ".";
 
-export class User extends Model {}
+export interface IUserAttributes {
+  uuid: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export class User extends Model<IUserAttributes> {}
 
-export default (sequelize: Sequelize) => {
+export default function (sequelize: Sequelize) {
   User.init(
     {
       uuid: {
+        type: DataTypes.CHAR(30),
+        allowNull: false,
+        defaultValue: null,
         primaryKey: true,
-        type: DataTypes.STRING(30),
+        field: "uuid",
+        autoIncrement: false,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: null,
+        primaryKey: false,
+        field: "createdAt",
+        autoIncrement: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: null,
+        primaryKey: false,
+        field: "updatedAt",
+        autoIncrement: false,
       },
     },
     {
-      charset: "utf8mb4",
-      collate: "utf8mb4_general_ci",
+      tableName: Models.User,
       modelName: Models.User,
       sequelize,
-      tableName: Models.User,
+      charset: "utf8",
+      collate: "utf8_general_ci",
     }
   );
 
   return User;
-};
+}

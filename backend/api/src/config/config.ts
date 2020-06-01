@@ -16,6 +16,7 @@ export interface Config {
   };
   db: {
     host: string;
+    port: string;
     name: string;
     user: string;
     password: string;
@@ -33,6 +34,7 @@ export const CONFIG: Config = {
   db: {
     host: process.env.DB_HOST!,
     name: process.env.DB_NAME!,
+    port: process.env.DB_PORT!,
     user: process.env.DB_USER!,
     password: process.env.DB_PASSWORD!,
   },

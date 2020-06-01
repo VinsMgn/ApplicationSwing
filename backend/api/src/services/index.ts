@@ -8,6 +8,7 @@ import { ResponseService } from "./Response";
 import { ServerService } from "./Server";
 import { StringService } from "./String";
 import { TemplateService } from "./Template";
+import { SqlService } from "./Sql";
 
 export class ServiceContainer {
   crypto: Crypto;
@@ -20,6 +21,7 @@ export class ServiceContainer {
   template: TemplateService;
   server: ServerService;
   controller: ControllerService;
+  sql: SqlService;
 
   constructor() {
     this.crypto = new Crypto(this);
@@ -32,6 +34,7 @@ export class ServiceContainer {
     this.template = new TemplateService(this);
     this.server = new ServerService(this);
     this.controller = new ControllerService(this);
+    this.sql = new SqlService(this);
   }
 
   async init() {

@@ -28,7 +28,7 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "types": ["node"],
-    "typeRoots": ["node_modules/@types", "index.d.ts"]
+    "typeRoots": ["node_modules/@types", "./index.d.ts"]
   },
   "exclude": ["./src/public/", "node_modules"],
   "include": ["**/*.ts", "**/*.d.ts"]
