@@ -1,0 +1,46 @@
+version: "3"
+
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile
+    image: api
+    container_name: mspr_iot_backend
+    command: yarn start
+    volumes:
+      - ./api:/home/node/app
+    environment:
+      ENV: dev
+      DB_HOST: ec2-54-217-204-34.eu-west-1.compute.amazonaws.com
+      DB_NAME: dcr0iulgfev7hi
+      DB_PORT: 5432
+      DB_USER: jtwljcpydveclf
+      DB_PASSWORD: 12ddb0820d81f0dc27c85981dba6395b4481f74dc74298a7d25a865e2878a2f1
+      API_PORT: ${API_PORT}
+      API_HOST: localhost
+      SECRETJWT: secret
+    restart: unless-stopped
+    expose:
+      - ${API_PORT}
+    networks:
+      - backend
+
+  webserver:
+    image: nginx:alpine
+    restart: unless-stopped
+    container_name: mspr_iot_webserver
+    volumes:
+      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./infra/nginx/dev/nginx:/etc/nginx/conf.d
+      - ./infra/nginx/logs.log:/var/log/nginx/access.log
+    ports:
+      - 8081:${API_PORT}
+    depends_on:
+      - api
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
